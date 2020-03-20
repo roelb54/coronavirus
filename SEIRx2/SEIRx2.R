@@ -1,3 +1,7 @@
+# code by Roel Bakker
+# roel.bakker@gmail.com
+
+
 library(deSolve)
 
 SEIR2 = function(t, state, parameters) {
@@ -31,14 +35,15 @@ SEIR2 = function(t, state, parameters) {
 }  
 dur = 4.6
 R0young  = 0.7 * 0.7 * 2.84 # 0.70 * 0.70
-R0young2 = 1.0 * 0.7 * 2.84 # 0.70 * 0.70
 R0old    = 0.6 * 0.7 * 1.75 # 0.60 * 0.70 
+R0young2 = 1.0 * 0.7 * 2.84 # 0.70 * 0.70
 R0old2   = 0.7 * 0.7 * 1.75
+# INTERVENTIE
 # b1 = 1.39 => 0.97 * 1.39 = 1.35 (assortative) + 0.03 * 1.39 = 0.042 (disass)
 # b2 = 0.735 => 0.693 (assor) + 0.042 (disass)
-# b1 = 2.00 => 1.736 (assortative) + 0.274 (disass)
-# b2 = 1.25 => 0.976 + 0.274
-# winc = 0.868
+# NA 300 DAGEN
+# b1 = 1.99 => 1.72 (assortative) + 0.27 (disass)
+# b2 = 0.86 => 0.59 + 0.27
 params2 = c(dinc=dur,dinf=dur,dhosp=8,dicu=10,fh1=2.03/100,fh2=16.88/100,fc1=5.674/100,fc2=0.355,mu1=0.5,mu2=0.5,
             b1=R0young/dur,b2=R0old/dur, w=0.97, tinc=300, b1inc=R0young2/dur, b2inc=R0old2/dur ,winc=0.863)
 state2  = c(S1=10000-7.5,E1=3.75,I1=3.75,H1=0,C1=0,R1=0,D1=0,
@@ -47,6 +52,7 @@ times <- seq(0, 700, by = 1)
 out = as.data.frame(ode(y = state2, times = times, func = SEIR2, parms = params2, method="adams"))
 
 # View(out)
+
 png("besmettingen.png")
 plot(out$time,out$I1,type="l",col="red",ylim=c(0,250),xlab="dagen",ylab="aantal infecties (duizenden)",lwd=2)
 lines(out$time,out$I2,type="l",lty=2,col="magenta",lwd=2)
