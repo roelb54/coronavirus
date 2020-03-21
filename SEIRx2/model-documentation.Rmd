@@ -2,7 +2,7 @@
 title: "SARS-Cov2 transmission model"
 output: html_notebook
 author: Roel Bakker
-malito: roel.bakker@gmail.com
+<a href="mailto:roel.bakker@gmail.com">email:</a>
 ---
 
 The model simulates the time course of the state variables defined by the following set of differential equations:
