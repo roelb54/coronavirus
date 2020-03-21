@@ -1,0 +1,105 @@
+---
+title: "SARS-Cov2 transmission model"
+output: html_notebook
+author: Roel Bakker (roel.bakker@gmail.com)
+---
+
+The model simulates the time course of the state variables defined by the following set of differential equations:
+
+$$
+\begin{align}
+dS_1/dt &= -\lambda_1 \cdot S_1\\
+dE_1/dt &=  \lambda_1 \cdot S_1 - E_1/\delta_E\\
+dI_1/dt &=  E_1/\delta_E - I_1/\delta_I\\
+dH_1/dt &=  \phi_{H1} \cdot I_1/\delta_I - \phi_{C1} \cdot H_1/(0.75 \cdot \delta_H)-(1-\phi_{C1}) \cdot H_1/\delta_H\\
+dC_1/dt &= \phi_{C1} \cdot H_1/(0.75 \cdot \delta_H)-C_1/\delta_C\\
+dR_1/dt &= (1-\phi_{H1})\cdot I_1/\delta_I + (1-\phi_{C1}) \cdot H_1/\delta_H + (1-\mu_1) \cdot C_1/\delta_C\\
+dD_1/dt &= \mu_1 \cdot C_1/\delta_C\\
+dS_2/dt &= -\lambda_2 \cdot S_2\\
+dE_2/dt &=  \lambda_2 \cdot S_2 - E_2/\delta_E\\
+dI_2/dt &=  E_2/\delta_E - I_2/\delta_I\\
+dH_2/dt &=  \phi_{H2} \cdot I_2/\delta_I - \phi_{C2} \cdot H_2/(0.75 \cdot \delta_H)-(1-\phi_{C2}) \cdot H_2/\delta_H\\
+dC_2/dt &= \phi_{C2} \cdot H_2/(0.75 \cdot \delta_H)-C_2/\delta_C\\
+dR_2/dt &= (1-\phi_{H2})\cdot I_2/\delta_I + (1-\phi_{C2}) \cdot H_2/\delta_H + (1-\mu_2) \cdot C_2/\delta_C\\
+dD_2/dt &= \mu_2 \cdot C_2/\delta_C\\
+\end{align}
+$$
+with state variables:  
+$S :$ susceptible  
+$E :$ exposed (i.e. during the incubation time)  
+$I :$ infectious  
+$H :$ in hospital  
+$C :$ in ICU  
+$R :$ recovered  
+$D :$ dead  
+$N = S+E+I+R$  
+  
+The subscript 1 or 2 (for instance $S_1$) indicates the age group.  
+Age group 1 : < 50 years  
+Age group 2: from 50 years   
+  
+$\lambda_1 = \beta_1 \cdot \{ w \cdot I_1/N_1 + (1-w) \cdot I_2/N_2 \}$   
+$\lambda_2 = \{\beta_2 - \beta_1 \cdot (1-w)\cdot N_1/N_2 \}\cdot I_2/N_2 + (1-w) \cdot \beta_1\cdot N_1/N_2\cdot I_1/N_1$  
+  
+$\delta_E :$ duration of incubation period  
+$\delta_I :$ duration of infectious period  
+$\delta_H :$ duration in hospital (excluding duration in ICU)  
+$\delta_C :$ duration in ICU  
+$\phi_H   :$ fraction needing hospitalization  
+$\phi_C   :$ fraction hospitalized needing care in ICU  
+$\mu      :$ fraction in ICU not surviving  
+
+Parameter values:  
+$\delta_E = 4.6$ days  
+$\delta_I = 4.6$ days  
+$\delta_H = 8$ days  
+$\delta_C = 10$ days  
+$\phi_{H1}=0.0203$  
+$\phi_{C1}=0.05674$  
+$\phi_{H2}=0.1688$  
+$\phi_{C2}=0.355$  
+
+Baseline parameters (not simulated):  
+$\beta_1=0.617 / day$ (potentially infectious contacts per person per day)  
+$\beta_2=0.380 / day$ (potentially infectious contacts per person per day)  
+$w=0.863$  
+  
+Parameters during intervention (0 < t < 300 days):   
+$\beta_1=0.303 / day$ (potentially infectious contacts per person per day)  
+$\beta_2=0.160 / day$ (potentially infectious contacts per person per day)  
+$w=0.97$    
+  
+Parameters after intervention (t >= 300 days):  
+$\beta_1=0.432 / day$ (potentially infectious contacts per person per day)  
+$\beta_2=0.186 / day$ (potentially infectious contacts per person per day)  
+$w=0.863$    
+
+Initial conditions:  
+$S_1(0) = 10000 - E_1(0) - I_1(0)$  
+$E_1(0) = 3.75$  
+$I_1(0) = 3.75$  
+$H_1(0) = 0$  
+$C_1(0) = 0$  
+$R_1(0) = 0$  
+$D_1(0) = 0$  
+
+$S_2(0) = 7000 - E_2(0) - I_2(0) - H_2(0) - C_2(0)$  
+$E_2(0) =   1.25$  
+$I_2(0) =   1.25$  
+$H_2(0) = 0.3$  
+$C_2(0) = 0.2$  
+$R_2(0) = 0$  
+$D_2(0) = 0$  
+
+The time course of the state variables is simulated over a period of 700 days using the Adams   integration method of the ode function in the deSolve R package (Kalrine Soetaert et al.)  
+
+Parameter values were based on:    
+Neil M. Ferguson et al. Impact of non-pharmaceutical interventions (NPIs) to reduce COVID19 mortality   and healthcare demand. Imperial College COVID-19 Response Team, 16 maart 2020.   https://doi.org/10.25561/77482  
+
+
+
+
+
+
+
+
