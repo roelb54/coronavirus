@@ -1,8 +1,7 @@
 ---
 title: "SARS-Cov2 transmission model"
 output: html_notebook
-author: Roel Bakker
-<a href="mailto:roel.bakker@gmail.com">email:</a>
+author: Roel Bakker roel.bakker@gmail.com
 ---
 
 The model simulates the time course of the state variables defined by the following set of differential equations:
@@ -61,18 +60,18 @@ $\phi_{H2}=0.1688$
 $\phi_{C2}=0.355$  
 
 Baseline parameters (not simulated):  
-$\beta_1=0.617 / day$ (potentially infectious contacts per person per day)  
-$\beta_2=0.380 / day$ (potentially infectious contacts per person per day)  
+$\beta_1=0.617 / day$ (contacts per person per day)  
+$\beta_2=0.380 / day$ (contacts per person per day)  
 $w=0.863$  
   
 Parameters during intervention (0 < t < 300 days):   
-$\beta_1=0.303 / day$ (potentially infectious contacts per person per day)  
-$\beta_2=0.160 / day$ (potentially infectious contacts per person per day)  
+$\beta_1=0.303 / day$ (contacts per person per day)  
+$\beta_2=0.160 / day$ (contacts per person per day)  
 $w=0.97$    
   
 Parameters after intervention (t >= 300 days):  
-$\beta_1=0.432 / day$ (potentially infectious contacts per person per day)  
-$\beta_2=0.186 / day$ (potentially infectious contacts per person per day)  
+$\beta_1=0.432 / day$ (contacts per person per day)  
+$\beta_2=0.186 / day$ (contacts per person per day)  
 $w=0.863$    
 
 Initial conditions:  
@@ -94,8 +93,15 @@ $D_2(0) = 0$
 
 The time course of the state variables is simulated over a period of 700 days using the Adams   integration method of the ode function in the deSolve R package (Karline Soetaert et al.)  
 
-Parameter values were based on:    
-Neil M. Ferguson et al. Impact of non-pharmaceutical interventions (NPIs) to reduce COVID19 mortality   and healthcare demand. Imperial College COVID-19 Response Team, 16 maart 2020.   https://doi.org/10.25561/77482  
+The baseline values of parameters $\beta_1$ and $\beta_2$ were calculated from aggregated contact rates for age groups younger than 50 years and older than 50 years, respectively [2] and an R0 of 2.4 [1].
+Data for the population composition was downloaded from CBS Statline (opendata.cbs.nl).
+
+Other parameter values were based on [1].    
+
+1. Neil M. Ferguson et al. Impact of non-pharmaceutical interventions (NPIs) to reduce COVID19 mortality   and healthcare demand. Imperial College COVID-19 Response Team, 16 maart 2020.   https://doi.org/10.25561/77482  
+
+2. Mossong J, Hens N, Jit M, Beutels P, Auranen K, Mikolajczyk R, et al. (2008) Social Contacts and Mixing Patterns Relevant to the Spread of Infectious Diseases. PLoS Med 5(3): e74. https://doi.org/10.1371/journal.pmed.0050074
+
 
 
 
