@@ -1,5 +1,5 @@
 ---
-title: "SARS-Cov2 transmission model"
+title: "SARS-CoV-2 transmission model"
 output: html_notebook
 author: Roel Bakker roel.bakker@gmail.com
 ---
