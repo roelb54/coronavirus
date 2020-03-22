@@ -1,3 +1,3 @@
-# Transmission model of SARS-COV2
+# Transmission model of SARS-CoV-2
 
-See ./docs/SARS-Cov2 transmission model.pdf for a technical specification of the model
+See ./docs/SARS-CoV-2 transmission model.pdf for a technical specification of the model
